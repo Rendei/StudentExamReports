@@ -1,0 +1,45 @@
+<main class="container ">
+  <button class="btn btn-primary">
+    Сохранить отчёт
+  </button>
+  <button class="notification-button">
+    <i class="fas fa-bell"></i>
+  </button>
+
+  <div class="filters">
+    <span style="margin: auto;">Фильтры</span>
+    <div class="container d-flex">
+      <div class="container card">
+        <label for="filterSelect">Тип диаграммы:</label>
+        <select #filterSelect id="filterSelect">
+          <option *ngFor="let filterOption of filterOptions" [value]="filterOption"> {{ filterOption }}</option>
+        </select>
+
+        <div>
+
+          <div class="filter">
+            <b>Школа</b>
+            <label style="margin-left: 1vw;" for="allSchools">Все <input type="checkbox" id="allSchools"></label>
+            <div class="options">
+              <select multiple>
+                <option *ngFor="let schoolOption of schoolOptions" [value]="schoolOption"> {{ schoolOption }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="filter">
+            <b>Класс</b>
+            <label style="margin-left: 1vw;" for="allClasses">Все <input type="checkbox" id="allClasses"></label>
+            <div class="options">
+              <select multiple>
+                <option *ngFor="let classOption of classOptions" [value]="classOption"> {{ classOption }}</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
