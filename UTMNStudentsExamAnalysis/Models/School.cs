@@ -19,6 +19,8 @@ public partial class School
 
     public virtual Area? Area { get; set; }
 
+    public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
+
     public virtual SchoolKind? SchoolKind { get; set; }
 
     public virtual ICollection<Student> Students { get; set; } = new List<Student>();

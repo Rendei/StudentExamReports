@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+
 namespace UTMNStudentsExamAnalysis.Models;
 
 public partial class StudentExamResultsContext : DbContext
 {
     private readonly IConfiguration _configuration;
-
     public StudentExamResultsContext(IConfiguration configuration)
     {
         _configuration = configuration;
@@ -25,6 +24,10 @@ public partial class StudentExamResultsContext : DbContext
 
     public virtual DbSet<Competention> Competentions { get; set; }
 
+    public virtual DbSet<Report> Reports { get; set; }
+
+    public virtual DbSet<ReportsData> ReportsData { get; set; }
+
     public virtual DbSet<Result> Results { get; set; }
 
     public virtual DbSet<School> Schools { get; set; }
@@ -38,6 +41,8 @@ public partial class StudentExamResultsContext : DbContext
     public virtual DbSet<Subject> Subjects { get; set; }
 
     public virtual DbSet<Task> Tasks { get; set; }
+
+    public virtual DbSet<TaskCompetention> TaskCompetentions { get; set; }
 
     public virtual DbSet<TestTemplate> TestTemplates { get; set; }
 
@@ -96,6 +101,47 @@ public partial class StudentExamResultsContext : DbContext
                 .HasColumnName("competition_text");
         });
 
+        modelBuilder.Entity<Report>(entity =>
+        {
+            entity.HasKey(e => e.ReportId).HasName("reports_pkey");
+
+            entity.ToTable("reports");
+
+            entity.Property(e => e.ReportId).HasColumnName("report_id");
+            entity.Property(e => e.AreaId).HasColumnName("area_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
+            entity.Property(e => e.ReportDataId).HasColumnName("report_data_id");
+            entity.Property(e => e.SchoolCode).HasColumnName("school_code");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Area).WithMany(p => p.Reports)
+                .HasForeignKey(d => d.AreaId)
+                .HasConstraintName("reports_area_code_fkey");
+
+            entity.HasOne(d => d.ReportData).WithMany(p => p.Reports)
+                .HasForeignKey(d => d.ReportDataId)
+                .HasConstraintName("reports_report_data_id_fkey");
+
+            entity.HasOne(d => d.SchoolCodeNavigation).WithMany(p => p.Reports)
+                .HasForeignKey(d => d.SchoolCode)
+                .HasConstraintName("reports_school_code_fkey");
+        });
+
+        modelBuilder.Entity<ReportsData>(entity =>
+        {
+            entity.HasKey(e => e.ReportsDataId).HasName("reports_data_pkey");
+
+            entity.ToTable("reports_data");
+
+            entity.Property(e => e.ReportsDataId).HasColumnName("reports_data_id");
+            entity.Property(e => e.ClassIds).HasColumnName("class_ids");
+            entity.Property(e => e.SchoolIds).HasColumnName("school_ids");
+            entity.Property(e => e.SubjectIds).HasColumnName("subject_ids");
+            entity.Property(e => e.TypeIds).HasColumnName("type_ids");
+        });
+
         modelBuilder.Entity<Result>(entity =>
         {
             entity.HasKey(e => e.ResultId).HasName("results_pkey");
@@ -103,14 +149,23 @@ public partial class StudentExamResultsContext : DbContext
             entity.ToTable("results");
 
             entity.Property(e => e.ResultId).HasColumnName("result_id");
-            entity.Property(e => e.ComplitionPercent).HasColumnName("complition_percent");
+            entity.Property(e => e.CompletionPercent).HasColumnName("completion_percent");
+            entity.Property(e => e.FirstPartAnswers)
+                .HasMaxLength(255)
+                .HasColumnName("first_part_answers");
             entity.Property(e => e.FirstPartPrimaryPoints).HasColumnName("first_part_primary_points");
             entity.Property(e => e.Mark).HasColumnName("mark");
             entity.Property(e => e.PrimaryPoints).HasColumnName("primary_points");
+            entity.Property(e => e.SecondPartAnswers)
+                .HasMaxLength(255)
+                .HasColumnName("second_part_answers");
             entity.Property(e => e.SecondPartPrimaryPoints).HasColumnName("second_part_primary_points");
             entity.Property(e => e.SecondaryPoints).HasColumnName("secondary_points");
             entity.Property(e => e.StudentId).HasColumnName("student_id");
             entity.Property(e => e.TestTemplateId).HasColumnName("test_template_id");
+            entity.Property(e => e.ThirdPartAnswers)
+                .HasMaxLength(255)
+                .HasColumnName("third_part_answers");
             entity.Property(e => e.ThirdPartPrimaryPoints).HasColumnName("third_part_primary_points");
 
             entity.HasOne(d => d.Student).WithMany(p => p.Results)
@@ -120,7 +175,6 @@ public partial class StudentExamResultsContext : DbContext
 
             entity.HasOne(d => d.TestTemplate).WithMany(p => p.Results)
                 .HasForeignKey(d => d.TestTemplateId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("results_test_template_id_fkey");
         });
 
@@ -256,6 +310,16 @@ public partial class StudentExamResultsContext : DbContext
             entity.HasOne(d => d.TestTemplate).WithMany(p => p.Tasks)
                 .HasForeignKey(d => d.TestTemplateId)
                 .HasConstraintName("tasks_test_template_id_fkey");
+        });
+
+        modelBuilder.Entity<TaskCompetention>(entity =>
+        {
+            entity.HasKey(e => new { e.TaskId, e.CompetentionId }).HasName("task_competentions_pkey");
+
+            entity.ToTable("task_competentions");
+
+            entity.Property(e => e.TaskId).HasColumnName("task_id");
+            entity.Property(e => e.CompetentionId).HasColumnName("competention_id");
         });
 
         modelBuilder.Entity<TestTemplate>(entity =>
