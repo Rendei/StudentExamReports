@@ -7,7 +7,7 @@ import { TownType } from './town-type';
   providedIn: 'root'
 })
 export class TownTypeService {
-  private apiUrl = 'https://localhost:7230/api'; // Replace this with your actual API URL
+  private apiUrl = 'https://localhost:7230/api';
 
   constructor(private http: HttpClient) { }
 

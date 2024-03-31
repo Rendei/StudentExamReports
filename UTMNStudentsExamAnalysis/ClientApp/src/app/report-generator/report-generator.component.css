@@ -29,10 +29,17 @@
 
 .options {
   margin-left: 1vw;
+  overflow: scroll;
 }
 
 .filter-label{
     margin-left: 1vw;
 }
+
+.filter-option {
+    padding-left: 5px;
+    min-width: 100px;
+}
+    
 
 

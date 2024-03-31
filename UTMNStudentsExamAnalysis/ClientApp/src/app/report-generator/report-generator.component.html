@@ -1,18 +1,18 @@
-  <main class="container">
-  <button class="btn btn-primary">
-    Сохранить отчёт
-  </button>
-  <button class="notification-button">
-    <i class="fas fa-bell"></i>
-  </button>
+  <main class="d-flex container">
+    <!--<button class="btn btn-primary">
+      Сохранить отчёт
+    </button>
+    <button class="notification-button">
+      <i class="fas fa-bell"></i>
+    </button>-->
 
   <div class="filters">
     <span class="mx-auto">Фильтры</span>
     <div class="container">
       <div class="container card">
         <b class="mx-auto">Тип диаграммы:</b>
-        <select #filterSelect id="filterSelect">
-          <option *ngFor="let filterOption of filterOptions" [value]="filterOption"> {{ filterOption }}</option>
+        <select #filterSelect id="filterSelect" [(ngModel)]="selectedReport">
+          <option class="filter-option" *ngFor="let filterOption of filterOptions" [value]="filterOption"> {{ filterOption }}</option>
         </select>
 
         <div class="row">
@@ -21,10 +21,10 @@
             <div>
               <label class="filter-label" for="allSchools">Все <input type="checkbox" id="allSchools"></label>
             </div>
-            
+
             <div class="options">
-              <select multiple>
-                <option *ngFor="let schoolOption of schoolOptions" [value]="schoolOption"> {{ schoolOption }}</option>
+              <select multiple [(ngModel)]="selectedSchoolCodes">
+                <option class="filter-option" *ngFor="let schoolOption of schoolOptions" [value]="schoolOption.schoolCode" [title]="schoolOption.shortName"> {{ schoolOption.shortName }}</option>
               </select>
             </div>
           </div>
@@ -33,10 +33,10 @@
             <b>Класс</b>
             <div>
               <label class="filter-label" for="allClasses">Все <input type="checkbox" id="allClasses"></label>
-            </div>            
+            </div>
             <div class="options">
               <select multiple>
-                <option *ngFor="let classOption of classOptions" [value]="classOption"> {{ classOption }}</option>
+                <option class="filter-option" *ngFor="let classOption of classOptions" [value]="classOption"> {{ classOption }}</option>
               </select>
             </div>
           </div>
@@ -47,10 +47,10 @@
             <b>Тип</b>
             <div>
               <label class="filter-label" for="allTypes">Все <input type="checkbox" id="allTypes"></label>
-            </div>            
+            </div>
             <div class="options">
               <select multiple>
-                <option *ngFor="let typeOption of typeOptions" [value]="typeOption"> {{ typeOption }}</option>
+                <option class="filter-option" *ngFor="let typeOption of typeOptions" [value]="typeOption"> {{ typeOption }}</option>
               </select>
             </div>
           </div>
@@ -59,17 +59,22 @@
             <b>Предмет</b>
             <div>
               <label class="filter-label" for="allSubjects">Все <input type="checkbox" id="allSubjects"></label>
-            </div>            
+            </div>
             <div class="options">
               <select multiple>
-                <option *ngFor="let subjectOption of subjectOptions" [value]="subjectOption"> {{ subjectOption }}</option>
+                <option class="filter-option" *ngFor="let subjectOption of subjectOptions" [value]="subjectOption"> {{ subjectOption }}</option>
               </select>
             </div>
           </div>
         </div>
-
+        <button (click)="generateReport()">Сгенерировать отчёт</button>
       </div>
     </div>
   </div>
 
+
+  <div class="chart-container" style="width: 1200px; height: 600px;">
+    <canvas id="my-chart">
+    </canvas>
+  </div>
 </main>

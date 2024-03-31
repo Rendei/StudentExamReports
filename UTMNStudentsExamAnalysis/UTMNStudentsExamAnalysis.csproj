@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.17">
@@ -32,6 +33,22 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\report-generator\models\class.ts" />
+    <None Remove="ClientApp\src\app\report-generator\models\school.ts" />
+    <None Remove="ClientApp\src\app\report-generator\models\schoolAverage.ts" />
+    <None Remove="ClientApp\src\app\report-generator\models\subject.ts" />
+    <None Remove="ClientApp\src\app\report-generator\models\testType.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\class.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\school.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\schoolAverage.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\subject.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\testType.ts" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
