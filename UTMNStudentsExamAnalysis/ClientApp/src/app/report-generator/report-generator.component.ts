@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Chart, ChartConfiguration, ChartItem, ChartTypeRegistry, registerables } from 'chart.js'
-import { HttpClient } from '@angular/common/http';
 import { School } from './models/school';
 
 import { ReportsService } from '../reports.service'
@@ -39,21 +38,13 @@ export class ReportGeneratorComponent implements OnInit {
         });
   }
 
-  getSchoolsAverage(): Observable<void> {
-    return this.reportService.getSchoolsAverage(this.selectedSchoolCodes).pipe(
-      tap(schoolAverages => {
-        this.schoolAverages = schoolAverages;
-      }),
-      mapTo(undefined)
-    );
-  }
-
   ngAfterViewInit(): void {
     //this.getDataAndCreateChart();
   }
 
   generateReport(): void {
-    this.getSchoolsAverage().subscribe(() => {
+    this.reportService.getSchoolsAverage(this.selectedSchoolCodes).subscribe((schoolAverages) => {
+      this.schoolAverages = schoolAverages;
       this.createChart();
     });
   }
@@ -66,7 +57,7 @@ export class ReportGeneratorComponent implements OnInit {
 
     Chart.register(...registerables);
     const data = {
-      labels: this.selectedSchoolCodes,
+      labels: this.schoolAverages.map(schoolAverage => schoolAverage.shortName),
       datasets: [{
         label: 'Среднее по школам',
         

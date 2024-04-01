@@ -153,6 +153,7 @@ namespace UTMNStudentsExamAnalysis.Controllers
                 {
                     SchoolCode = group.Key,
                     AverageSecondaryPoints = group.Average(result => result.SecondaryPoints),
+                    ShortName = _context.Schools.Where(school => school.SchoolCode.Equals(group.Key)).First().ShortName,
                 })
                 .ToListAsync();
 

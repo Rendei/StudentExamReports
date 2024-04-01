@@ -32,8 +32,10 @@ export class ReportsService {
   }
 
   getSchoolsAverage(schoolCodes: number[]): Observable<SchoolAverage[]> {
+    console.log(schoolCodes);
     const schoolCodesString = schoolCodes.join('&schoolCodes=');
-
+    console.log(schoolCodesString);
+      
     return this.http.get<SchoolAverage[]>(`${this.apiUrl}/results/average?schoolCodes=${schoolCodesString}`);
   }
 }
