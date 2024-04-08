@@ -3,8 +3,9 @@ import { Chart, ChartConfiguration, ChartItem, ChartTypeRegistry, registerables 
 import { School } from './models/school';
 
 import { ReportsService } from '../reports.service'
-import { SchoolAverage } from './models/schoolAverage';
+import { ClassAverage, SchoolAverage } from './models/averages';
 import { Observable, forkJoin, mapTo, tap } from 'rxjs';
+import { Class } from './models/class';
 
 @Component({
   selector: 'app-report-generator',
@@ -19,10 +20,15 @@ export class ReportGeneratorComponent implements OnInit {
 
   public schoolOptions: School[] = [];
   public selectedSchoolCodes: number[] = [];
-  public classOptions = ["11A", "11B"];
+  public schoolAverages: SchoolAverage[] = [];
+
+  public classOptions: Class[] = [];
+  public selectedSchoolClasses: string[] = [];
+  public classAverages: ClassAverage[] = [];
+
   public typeOptions = ["ЕГЭ", "ОГЭ"];
   public subjectOptions = ["Математика", "Русский"];
-  public schoolAverages: SchoolAverage[] = [];
+  
 
   constructor(private reportService: ReportsService) { }
 
@@ -43,13 +49,26 @@ export class ReportGeneratorComponent implements OnInit {
   }
 
   generateReport(): void {
-    this.reportService.getSchoolsAverage(this.selectedSchoolCodes).subscribe((schoolAverages) => {
-      this.schoolAverages = schoolAverages;
-      this.createChart();
-    });
+    if (this.selectedSchoolClasses.length > 0) {
+      this.reportService.getSchoolClassesAverage(this.selectedSchoolCodes[0], this.selectedSchoolClasses).subscribe(classAverages => {
+        this.classAverages = classAverages;
+        let xData = this.classAverages.map(classAverage => classAverage.averageSecondaryPoints);
+        let yData = this.classAverages.map(classAverage => classAverage.className);
+        this.createChart(xData, yData);
+      })
+    }
+    else {
+      this.reportService.getSchoolsAverage(this.selectedSchoolCodes).subscribe(schoolAverages => {
+        this.schoolAverages = schoolAverages;
+        let xData = this.schoolAverages.map(schoolAverage => schoolAverage.averageSecondaryPoints);
+        let yData = this.schoolAverages.map(schoolAverage => schoolAverage.shortName);
+        this.createChart(xData, yData);
+      });
+    }
+    
   }
 
-  createChart(): void {
+  createChart(xData: Array<any>, yData: Array<any>): void {
     const existingChart = Chart.getChart('my-chart');
     if (existingChart) {
       existingChart.destroy();
@@ -57,11 +76,11 @@ export class ReportGeneratorComponent implements OnInit {
 
     Chart.register(...registerables);
     const data = {
-      labels: this.schoolAverages.map(schoolAverage => schoolAverage.shortName),
+      labels: yData,
       datasets: [{
         label: 'Среднее по школам',
         
-        data: this.schoolAverages.map(schoolAverage => schoolAverage.averageSecondaryPoints),
+        data: xData,
       }]
     };
 
@@ -69,7 +88,7 @@ export class ReportGeneratorComponent implements OnInit {
       scales: {
         y: {
           beginAtZero: true,
-          display: false
+          display: true
         }
       }
     }
@@ -91,6 +110,16 @@ export class ReportGeneratorComponent implements OnInit {
 
     const chartItem: ChartItem = document.getElementById('my-chart') as ChartItem
     new Chart(chartItem, config)
+  }
+
+  onSelectionChange(): void {
+    this.selectedSchoolClasses = [];
+    if (this.selectedSchoolCodes.length === 1) {
+      this.reportService.getSchoolClasses(this.selectedSchoolCodes[0]).subscribe(classes => this.classOptions = classes);
+    }
+    else {
+      this.classOptions = [];      
+    }
   }
 
 }

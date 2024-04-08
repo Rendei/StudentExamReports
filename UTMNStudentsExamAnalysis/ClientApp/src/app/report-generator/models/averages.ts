@@ -3,3 +3,8 @@ export interface SchoolAverage {
   averageSecondaryPoints: number;
   shortName: string;
 }
+
+export interface ClassAverage {
+  averageSecondaryPoints: number;
+  className: string;
+}

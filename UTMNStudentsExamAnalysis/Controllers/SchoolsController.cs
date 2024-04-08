@@ -28,7 +28,7 @@ namespace UTMNStudentsExamAnalysis.Controllers
           {
               return NotFound();
           }
-            return await _context.Schools.ToListAsync();
+            return await _context.Schools.OrderBy(school => school.SchoolCode).ToListAsync();
         }
 
         // GET: api/Schools/5

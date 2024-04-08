@@ -5,7 +5,7 @@ import { School } from './report-generator/models/school';
 import { Class } from './report-generator/models/class';
 import { TestType } from './report-generator/models/testType';
 import { Subject } from './report-generator/models/subject';
-import { SchoolAverage } from './report-generator/models/schoolAverage';
+import { SchoolAverage, ClassAverage } from './report-generator/models/averages';
 
 
 @Injectable({
@@ -19,9 +19,9 @@ export class ReportsService {
     return this.http.get<School[]>(`${this.apiUrl}/schools`);
   }
 
-  getClasses(): Observable<Class[]> {
-    return this.http.get<Class[]>(`${this.apiUrl}/classes`);
-  }
+  //getClasses(): Observable<Class[]> {
+  //  return this.http.get<Class[]>(`${this.apiUrl}/classes`);
+  //}
 
   getTestTypes(): Observable<TestType[]> {
     return this.http.get<TestType[]>(`${this.apiUrl}/test-types`);
@@ -31,12 +31,20 @@ export class ReportsService {
     return this.http.get<Subject[]>(`${this.apiUrl}/subjects`);
   }
 
-  getSchoolsAverage(schoolCodes: number[]): Observable<SchoolAverage[]> {
-    console.log(schoolCodes);
-    const schoolCodesString = schoolCodes.join('&schoolCodes=');
-    console.log(schoolCodesString);
+  getSchoolClasses(schoolCode: number): Observable<Class[]> {
+    return this.http.get<Class[]>(`${this.apiUrl}/results/classes/${schoolCode}`);
+  }
+
+  getSchoolsAverage(selectedSchoolCodes: number[]): Observable<SchoolAverage[]> {
+    const schoolCodesString = selectedSchoolCodes.join('&selectedSchoolCodes=');    
       
-    return this.http.get<SchoolAverage[]>(`${this.apiUrl}/results/average?schoolCodes=${schoolCodesString}`);
+    return this.http.get<SchoolAverage[]>(`${this.apiUrl}/results/schools/average?selectedSchoolCodes=${schoolCodesString}`);
+  }
+
+  getSchoolClassesAverage(schoolCode: number, selectedSchoolClasses: string[]): Observable<ClassAverage[]> {
+    const schoolClassesString = selectedSchoolClasses.join('&selectedSchoolClasses=');
+
+    return this.http.get<ClassAverage[]>(`${this.apiUrl}/results/classes/${schoolCode}/average?selectedSchoolClasses=${schoolClassesString}`);
   }
 }
 

@@ -23,7 +23,7 @@
             </div>
 
             <div class="options">
-              <select multiple [(ngModel)]="selectedSchoolCodes">
+              <select multiple [(ngModel)]="selectedSchoolCodes" (change)="onSelectionChange()">
                 <option class="filter-option" *ngFor="let schoolOption of schoolOptions" [value]="schoolOption.schoolCode" [title]="schoolOption.shortName"> {{ schoolOption.shortName }}</option>
               </select>
             </div>
@@ -35,7 +35,7 @@
               <label class="filter-label" for="allClasses">Все <input type="checkbox" id="allClasses"></label>
             </div>
             <div class="options">
-              <select multiple>
+              <select multiple [(ngModel)]="selectedSchoolClasses">
                 <option class="filter-option" *ngFor="let classOption of classOptions" [value]="classOption"> {{ classOption }}</option>
               </select>
             </div>

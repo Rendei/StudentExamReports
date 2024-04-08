@@ -126,6 +126,7 @@ namespace UTMNStudentsExamAnalysis.Controllers
             {
                 return NotFound();
             }
+
             var result = await _context.Results.FindAsync(id);
             if (result == null)
             {
@@ -143,11 +144,11 @@ namespace UTMNStudentsExamAnalysis.Controllers
             return (_context.Results?.Any(e => e.ResultId == id)).GetValueOrDefault();
         }
 
-        [HttpGet("average")]
-        public async Task<ActionResult<IEnumerable<SchoolAverage>>> GetSchoolsAverage([FromQuery] IEnumerable<int> schoolCodes)
+        [HttpGet("schools/average")]
+        public async Task<ActionResult<IEnumerable<SchoolAverage>>> GetSchoolsAverage([FromQuery] IEnumerable<int> selectedSchoolCodes)
         {
             var results = await _context.Results
-                .Where(result => schoolCodes.Contains(result.Student.SchoolCode))
+                .Where(result => selectedSchoolCodes.Contains(result.Student.SchoolCode))
                 .GroupBy(result => result.Student.SchoolCode)
                 .Select(group => new SchoolAverage
                 {
@@ -167,6 +168,53 @@ namespace UTMNStudentsExamAnalysis.Controllers
 
 
             return results;
+        }      
+
+        [HttpGet("classes/{schoolCode}")]
+        public async Task<ActionResult<IEnumerable<string>>> GetSchoolClasses(int schoolCode)
+        {
+            var schoolClasses = await GetSchoolClassesByCode(schoolCode);
+
+            if (schoolClasses == null || !schoolClasses.Any())
+            {
+                return NotFound();
+            }
+
+            return schoolClasses;
+        }
+
+        [HttpGet("classes/{schoolCode}/average")]
+        public async Task<ActionResult<IEnumerable<SchoolClass>>> GetSchoolClassesAverage([FromQuery] IEnumerable<string> selectedSchoolClasses, int schoolCode)
+        {
+            var schoolClasses = await GetSchoolClassesByCode(schoolCode);
+
+            var schoolClassesAverages = await _context.Results
+                .Where(result => selectedSchoolClasses.Contains(result.Student.Class))
+                .GroupBy(result => result.Student.Class)
+                .Select(group => new SchoolClass()
+                {
+                    AverageSecondaryPoints = group.Average(result => result.SecondaryPoints),
+                    ClassName = group.Key,
+                    SchoolCode = schoolCode,
+                })
+                .ToListAsync();
+
+            if (schoolClasses == null || !schoolClasses.Any())
+            {
+                return NotFound();
+            }
+
+            return schoolClassesAverages;
+        }
+
+        private async Task<List<string>> GetSchoolClassesByCode(int schoolCode)
+        {
+            return await _context.Results
+                .Where(result => result.Student.SchoolCode.Equals(schoolCode))
+                .Select(result => result.Student.Class)
+                .Distinct()
+                .OrderBy(_class => _class)
+                .ToListAsync();
         }
     }
 }

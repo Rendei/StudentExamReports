@@ -36,9 +36,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\report-generator\models\averages.ts" />
     <None Remove="ClientApp\src\app\report-generator\models\class.ts" />
     <None Remove="ClientApp\src\app\report-generator\models\school.ts" />
-    <None Remove="ClientApp\src\app\report-generator\models\schoolAverage.ts" />
     <None Remove="ClientApp\src\app\report-generator\models\subject.ts" />
     <None Remove="ClientApp\src\app\report-generator\models\testType.ts" />
   </ItemGroup>
@@ -46,7 +46,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\class.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\school.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\schoolAverage.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\averages.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\subject.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\testType.ts" />
   </ItemGroup>
