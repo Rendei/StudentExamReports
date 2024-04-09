@@ -9,9 +9,9 @@ public partial class TestTemplate
 
     public string Year { get; set; } = null!;
 
-    public int? TestTypeId { get; set; }
+    public int TestTypeId { get; set; }
 
-    public int? SubjectId { get; set; }
+    public int SubjectId { get; set; }
 
     public virtual ICollection<Result> Results { get; set; } = new List<Result>();
 

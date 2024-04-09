@@ -145,10 +145,11 @@ namespace UTMNStudentsExamAnalysis.Controllers
         }
 
         [HttpGet("schools/average")]
-        public async Task<ActionResult<IEnumerable<SchoolAverage>>> GetSchoolsAverage([FromQuery] IEnumerable<int> selectedSchoolCodes)
+        public async Task<ActionResult<IEnumerable<SchoolAverage>>> GetSchoolsAverage([FromQuery] IEnumerable<int> selectedSchoolCodes, [FromQuery] IEnumerable<int> selectedSubjects)
         {
             var results = await _context.Results
                 .Where(result => selectedSchoolCodes.Contains(result.Student.SchoolCode))
+                .Where(result => selectedSubjects.Contains(result.TestTemplate.SubjectId))
                 .GroupBy(result => result.Student.SchoolCode)
                 .Select(group => new SchoolAverage
                 {

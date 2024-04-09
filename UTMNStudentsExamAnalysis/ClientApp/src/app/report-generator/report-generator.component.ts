@@ -4,8 +4,8 @@ import { School } from './models/school';
 
 import { ReportsService } from '../reports.service'
 import { ClassAverage, SchoolAverage } from './models/averages';
-import { Observable, forkJoin, mapTo, tap } from 'rxjs';
 import { Class } from './models/class';
+import { Subject } from './models/subject';
 
 @Component({
   selector: 'app-report-generator',
@@ -27,22 +27,26 @@ export class ReportGeneratorComponent implements OnInit {
   public classAverages: ClassAverage[] = [];
 
   public typeOptions = ["ЕГЭ", "ОГЭ"];
-  public subjectOptions = ["Математика", "Русский"];
+
+  public subjectOptions: Subject[] = [];
+  public selectedSubjects: number[] = [];
   
 
   constructor(private reportService: ReportsService) { }
 
   ngOnInit(): void {
-    this.getSchools();
-  }
-
-  getSchools(): void {
     this.reportService.getSchools()
       .subscribe(
         schools => {
           this.schoolOptions = schools;
         });
+
+    this.reportService.getSubjects().subscribe(
+      subjects => {
+        this.subjectOptions = subjects;
+      });
   }
+
 
   ngAfterViewInit(): void {
     //this.getDataAndCreateChart();
@@ -58,7 +62,7 @@ export class ReportGeneratorComponent implements OnInit {
       })
     }
     else {
-      this.reportService.getSchoolsAverage(this.selectedSchoolCodes).subscribe(schoolAverages => {
+      this.reportService.getSchoolsAverage(this.selectedSchoolCodes, this.selectedSubjects).subscribe(schoolAverages => {
         this.schoolAverages = schoolAverages;
         let xData = this.schoolAverages.map(schoolAverage => schoolAverage.averageSecondaryPoints);
         let yData = this.schoolAverages.map(schoolAverage => schoolAverage.shortName);

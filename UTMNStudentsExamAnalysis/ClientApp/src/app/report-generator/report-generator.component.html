@@ -61,8 +61,8 @@
               <label class="filter-label" for="allSubjects">Все <input type="checkbox" id="allSubjects"></label>
             </div>
             <div class="options">
-              <select multiple>
-                <option class="filter-option" *ngFor="let subjectOption of subjectOptions" [value]="subjectOption"> {{ subjectOption }}</option>
+              <select multiple [(ngModel)]="selectedSubjects">
+                <option class="filter-option" *ngFor="let subjectOption of subjectOptions" [value]="subjectOption.subjectId"> {{ subjectOption.subjectName }}</option>
               </select>
             </div>
           </div>
