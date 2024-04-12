@@ -45,4 +45,8 @@ select{
     min-width: 120px;
 }
 
+.chart{
+    height: 600px;
+    width: 1000px;
+}
 

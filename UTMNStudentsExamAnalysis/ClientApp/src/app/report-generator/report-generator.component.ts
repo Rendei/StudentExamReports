@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Chart, ChartConfiguration, ChartItem, ChartTypeRegistry, registerables } from 'chart.js'
 import { School } from './models/school';
 
@@ -14,6 +14,7 @@ import { Subject } from './models/subject';
 })
 export class ReportGeneratorComponent implements OnInit {
 
+  public charts: Chart[] = [];
   public filterOptions = ["Линейная", "Гистограмма",
     "Круговая", "Диаграмма рассеяния"];
   public selectedReport: any = null;
@@ -34,7 +35,7 @@ export class ReportGeneratorComponent implements OnInit {
   public yearOptions: number[] = [];
   public selectedYears: number[] = [];
 
-  constructor(private reportService: ReportsService) { }
+  constructor(private reportService: ReportsService, private renderer: Renderer2) { }
 
   ngOnInit(): void {
     this.reportService.getSchools().subscribe(
@@ -69,7 +70,7 @@ export class ReportGeneratorComponent implements OnInit {
       })
     }
     else {
-      this.reportService.getSchoolsAverage(this.selectedSchoolCodes, this.selectedSubjects).subscribe(schoolAverages => {
+      this.reportService.getSchoolsAverage(this.selectedSchoolCodes, this.selectedSubjects, this.selectedYears  ).subscribe(schoolAverages => {
         this.schoolAverages = schoolAverages;
         let xData = this.schoolAverages.map(schoolAverage => schoolAverage.averageSecondaryPoints);
         let yData = this.schoolAverages.map(schoolAverage => schoolAverage.shortName);
@@ -80,10 +81,15 @@ export class ReportGeneratorComponent implements OnInit {
   }
 
   createChart(xData: Array<any>, yData: Array<any>): void {
-    const existingChart = Chart.getChart('my-chart');
-    if (existingChart) {
-      existingChart.destroy();
-    }
+    //const existingChart = Chart.getChart('my-chart');
+    //if (existingChart) {
+    //  existingChart.destroy();
+    //}
+
+    const canvas = this.renderer.createElement('canvas');
+    this.renderer.addClass(canvas, 'chart');
+    const parent = document.getElementById('chartContainer');
+    this.renderer.appendChild(parent, canvas);
 
     Chart.register(...registerables);
     const data = {
@@ -119,8 +125,9 @@ export class ReportGeneratorComponent implements OnInit {
       options: options
     }
 
-    const chartItem: ChartItem = document.getElementById('my-chart') as ChartItem
-    new Chart(chartItem, config)
+    //const chartItem: ChartItem = document.getElementById('my-chart') as ChartItem
+    this.charts.push(new Chart(canvas, config));
+    
   }
 
   onSelectionChange(): void {

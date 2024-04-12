@@ -39,11 +39,12 @@ export class ReportsService {
     return this.http.get<Class[]>(`${this.apiUrl}/results/classes/${schoolCode}`);
   }
 
-  getSchoolsAverage(selectedSchoolCodes: number[], selectedSubjects: number[]): Observable<SchoolAverage[]> {
+  getSchoolsAverage(selectedSchoolCodes: number[], selectedSubjects: number[], seletectedYears: number[]): Observable<SchoolAverage[]> {
     const subjectsString = selectedSubjects.join('&selectedSubjects=');
     const schoolCodesString = selectedSchoolCodes.join('&selectedSchoolCodes=');    
-      
-    return this.http.get<SchoolAverage[]>(`${this.apiUrl}/results/schools/average?selectedSchoolCodes=${schoolCodesString}&selectedSubjects=${subjectsString}`);
+    const yearsString = seletectedYears.join('&selectedYears=');
+
+    return this.http.get<SchoolAverage[]>(`${this.apiUrl}/results/schools/average?selectedSchoolCodes=${schoolCodesString}&selectedSubjects=${subjectsString}&selectedYears=${yearsString}`);
   }
 
   getSchoolClassesAverage(schoolCode: number, selectedSchoolClasses: string[]): Observable<ClassAverage[]> {
