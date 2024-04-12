@@ -31,6 +31,10 @@ export class ReportsService {
     return this.http.get<Subject[]>(`${this.apiUrl}/subjects`);
   }
 
+  getYears(): Observable<number[]> {
+    return this.http.get<number[]>(`${this.apiUrl}/testtemplates/years`);
+  }
+
   getSchoolClasses(schoolCode: number): Observable<Class[]> {
     return this.http.get<Class[]>(`${this.apiUrl}/results/classes/${schoolCode}`);
   }

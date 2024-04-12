@@ -30,13 +30,14 @@ export class ReportGeneratorComponent implements OnInit {
 
   public subjectOptions: Subject[] = [];
   public selectedSubjects: number[] = [];
-  
+
+  public yearOptions: number[] = [];
+  public selectedYears: number[] = [];
 
   constructor(private reportService: ReportsService) { }
 
   ngOnInit(): void {
-    this.reportService.getSchools()
-      .subscribe(
+    this.reportService.getSchools().subscribe(
         schools => {
           this.schoolOptions = schools;
         });
@@ -45,6 +46,12 @@ export class ReportGeneratorComponent implements OnInit {
       subjects => {
         this.subjectOptions = subjects;
       });
+
+    this.reportService.getYears().subscribe(
+      years => {
+        this.yearOptions = years;
+      });
+    
   }
 
 

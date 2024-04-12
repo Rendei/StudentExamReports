@@ -42,7 +42,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row"> <!--можно убрать тут все дивы с классом роу-->
           <div class="col">
             <b>Тип</b>
             <div>
@@ -67,6 +67,19 @@
             </div>
           </div>
         </div>
+
+        <div class="col">
+          <b>Годы</b>
+          <div>
+            <label class="filter-label" for="allYears">Все <input type="checkbox" id="allYears"></label>
+          </div>
+          <div class="options">
+            <select multiple [(ngModel)]="selectedYears">
+              <option class="filter-option" *ngFor="let yearOption of yearOptions" [value]="yearOption"> {{ yearOption }}</option>
+            </select>
+          </div>
+        </div>
+
         <button (click)="generateReport()">Сгенерировать отчёт</button>
       </div>
     </div>
