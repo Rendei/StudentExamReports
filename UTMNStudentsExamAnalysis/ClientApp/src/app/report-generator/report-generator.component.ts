@@ -14,7 +14,7 @@ import { Subject } from './models/subject';
 })
 export class ReportGeneratorComponent implements OnInit {
 
-  public charts: Chart[] = [];
+  public charts: ChartWithCanvas[] = [];
   public filterOptions = ["Линейная", "Гистограмма",
     "Круговая", "Диаграмма рассеяния"];
   public selectedReport: any = null;
@@ -81,15 +81,17 @@ export class ReportGeneratorComponent implements OnInit {
   }
 
   createChart(xData: Array<any>, yData: Array<any>): void {
-    //const existingChart = Chart.getChart('my-chart');
-    //if (existingChart) {
-    //  existingChart.destroy();
-    //}
+    const button: HTMLButtonElement = this.renderer.createElement('button');
+    button.textContent = "X";
+    this.renderer.addClass(button, "close-button");
+    const parent = document.getElementById('chartContainer');
+    this.renderer.appendChild(parent, button);
 
     const canvas = this.renderer.createElement('canvas');
-    this.renderer.addClass(canvas, 'chart');
-    const parent = document.getElementById('chartContainer');
+    this.renderer.addClass(canvas, 'chart');   
     this.renderer.appendChild(parent, canvas);
+
+    
 
     Chart.register(...registerables);
     const data = {
@@ -125,9 +127,22 @@ export class ReportGeneratorComponent implements OnInit {
       options: options
     }
 
-    //const chartItem: ChartItem = document.getElementById('my-chart') as ChartItem
-    this.charts.push(new Chart(canvas, config));
-    
+    const chart = new Chart(canvas, config);
+    this.charts.push({ chart, canvas });
+    // TODO add onclick deleteChart
+    //button.addEventListener('click', this.deleteChart.bind(this.charts.length - 1), false); 
+    //button.
+  }
+
+  deleteChart(index: number): void {
+    if (index >= 0 && index < this.charts.length) {
+      const { chart, canvas } = this.charts[index];
+      canvas.remove();
+      this.charts.splice(index, 1);
+      chart.destroy();
+    } else {
+      console.log('Invalid chart index.');
+    }
   }
 
   onSelectionChange(): void {
@@ -141,3 +156,9 @@ export class ReportGeneratorComponent implements OnInit {
   }
 
 }
+
+
+type ChartWithCanvas = {
+  chart: Chart,
+  canvas: HTMLCanvasElement
+};

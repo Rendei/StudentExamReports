@@ -50,3 +50,19 @@ select{
     width: 1000px;
 }
 
+.chart-wrapper {
+  min-width: 1000px;
+  min-height: 600px;
+}
+
+.close-button {
+  /*position: relative;*/
+  top: 5px;
+  right: 5px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: red;
+}

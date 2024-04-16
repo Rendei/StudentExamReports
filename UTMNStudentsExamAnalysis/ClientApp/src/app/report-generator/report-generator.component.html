@@ -1,10 +1,10 @@
   <main class="d-flex container">
-    <!--<button class="btn btn-primary">
-      Сохранить отчёт
-    </button>
-    <button class="notification-button">
-      <i class="fas fa-bell"></i>
-    </button>-->
+  <!--<button class="btn btn-primary">
+    Сохранить отчёт
+  </button>
+  <button class="notification-button">
+    <i class="fas fa-bell"></i>
+  </button>-->
 
   <div class="filters">
     <span class="mx-auto">Фильтры</span>
@@ -42,7 +42,8 @@
           </div>
         </div>
 
-        <div class="row"> <!--можно убрать тут все дивы с классом роу-->
+        <div class="row">
+          <!--можно убрать тут все дивы с классом роу-->
           <div class="col">
             <b>Тип</b>
             <div>
@@ -86,6 +87,10 @@
   </div>
 
 
-  <div class="chart-container"  id="chartContainer">
+  <div id="chartContainer">
+    <!--<div *ngFor="let chart of charts; let i = index" class="chart-wrapper">
+      <button class="close-button" (click)="deleteChart(i)">X</button>
+    </div>-->
   </div>
+
 </main>
