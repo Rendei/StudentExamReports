@@ -45,9 +45,9 @@ select{
     min-width: 120px;
 }
 
-.chart{
-    height: 600px;
-    width: 1000px;
+.chart {
+  width: 1000px;
+  height: 600px;
 }
 
 .chart-wrapper {
@@ -55,8 +55,7 @@ select{
   min-height: 600px;
 }
 
-.close-button {
-  /*position: relative;*/
+.close-button {  
   top: 5px;
   right: 5px;
   padding: 0;
@@ -66,3 +65,9 @@ select{
   font-size: 14px;
   color: red;
 }
+
+/*.chart-container{
+    display: flex;
+    float: right;
+    flex-direction: column;
+}*/

@@ -81,15 +81,21 @@ export class ReportGeneratorComponent implements OnInit {
   }
 
   createChart(xData: Array<any>, yData: Array<any>): void {
+    const chartContainer = document.getElementById('chartsContainer');
+    const divParent: HTMLDivElement = this.renderer.createElement('div');
+    this.renderer.addClass(divParent, "chart-container");
+    this.renderer.appendChild(chartContainer, divParent);
+
     const button: HTMLButtonElement = this.renderer.createElement('button');
     button.textContent = "X";
-    this.renderer.addClass(button, "close-button");
-    const parent = document.getElementById('chartContainer');
-    this.renderer.appendChild(parent, button);
+    this.renderer.addClass(button, "close-button");    
+    this.renderer.appendChild(divParent, button);
 
     const canvas = this.renderer.createElement('canvas');
     this.renderer.addClass(canvas, 'chart');   
-    this.renderer.appendChild(parent, canvas);
+    this.renderer.appendChild(divParent, canvas);
+
+    
 
     
 
@@ -130,19 +136,13 @@ export class ReportGeneratorComponent implements OnInit {
     const chart = new Chart(canvas, config);
     this.charts.push({ chart, canvas });
     // TODO add onclick deleteChart
-    //button.addEventListener('click', this.deleteChart.bind(this.charts.length - 1), false); 
-    //button.
+    //button.onclick(this.deleteChart);
+    button.addEventListener('click', this.deleteChart.bind(this));
   }
 
-  deleteChart(index: number): void {
-    if (index >= 0 && index < this.charts.length) {
-      const { chart, canvas } = this.charts[index];
-      canvas.remove();
-      this.charts.splice(index, 1);
-      chart.destroy();
-    } else {
-      console.log('Invalid chart index.');
-    }
+  deleteChart(event: MouseEvent): void {
+    const button = event.target as HTMLButtonElement;
+    button.parentElement?.remove();
   }
 
   onSelectionChange(): void {
