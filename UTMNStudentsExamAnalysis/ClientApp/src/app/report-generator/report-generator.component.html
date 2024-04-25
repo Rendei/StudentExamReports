@@ -19,7 +19,7 @@
           <div class="col">
             <b>Школа</b>
             <div>
-              <label class="filter-label" for="allSchools">Все <input type="checkbox" id="allSchools"></label>
+              <label class="filter-label" for="allSchools">Все <input type="checkbox" id="allSchools" #allSchoolsCheckbox></label>
             </div>
 
             <div class="options">
@@ -32,7 +32,7 @@
           <div class="col">
             <b>Класс</b>
             <div>
-              <label class="filter-label" for="allClasses">Все <input type="checkbox" id="allClasses"></label>
+              <label class="filter-label" for="allClasses">Все <input type="checkbox" id="allClasses" #allClassesCheckbox></label>
             </div>
             <div class="options">
               <select multiple [(ngModel)]="selectedSchoolClasses">
@@ -47,7 +47,7 @@
           <div class="col">
             <b>Тип</b>
             <div>
-              <label class="filter-label" for="allTypes">Все <input type="checkbox" id="allTypes"></label>
+              <label class="filter-label" for="allTypes">Все <input type="checkbox" id="allTypes" #allTypesCheckbox></label>
             </div>
             <div class="options">
               <select multiple>
@@ -59,7 +59,7 @@
           <div class="col">
             <b>Предмет</b>
             <div>
-              <label class="filter-label" for="allSubjects">Все <input type="checkbox" id="allSubjects"></label>
+              <label class="filter-label" for="allSubjects">Все <input type="checkbox" id="allSubjects" #allSubjectsCheckbox></label>
             </div>
             <div class="options">
               <select multiple [(ngModel)]="selectedSubjects">
@@ -72,7 +72,7 @@
         <div class="col">
           <b>Годы</b>
           <div>
-            <label class="filter-label" for="allYears">Все <input type="checkbox" id="allYears"></label>
+            <label class="filter-label" for="allYears">Все <input type="checkbox" id="allYears" #allYearsCheckbox></label>
           </div>
           <div class="options">
             <select multiple [(ngModel)]="selectedYears">

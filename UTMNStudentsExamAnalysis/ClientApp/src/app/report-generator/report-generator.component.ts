@@ -60,8 +60,9 @@ export class ReportGeneratorComponent implements OnInit {
     //this.getDataAndCreateChart();
   }
 
-  generateReport(): void {
+  generateReport(): void {    
     if (this.selectedSchoolClasses.length > 0) {
+      // генерация отчёт для классов в школе
       this.reportService.getSchoolClassesAverage(this.selectedSchoolCodes[0], this.selectedSchoolClasses).subscribe(classAverages => {
         this.classAverages = classAverages;
         let xData = this.classAverages.map(classAverage => classAverage.averageSecondaryPoints);
@@ -70,7 +71,10 @@ export class ReportGeneratorComponent implements OnInit {
       })
     }
     else {
-      this.reportService.getSchoolsAverage(this.selectedSchoolCodes, this.selectedSubjects, this.selectedYears  ).subscribe(schoolAverages => {
+      // генерация для школы
+
+      let selectedScools = 
+      this.reportService.getSchoolsAverage(this.selectedSchoolCodes, this.selectedSubjects, this.selectedYears).subscribe(schoolAverages => {
         this.schoolAverages = schoolAverages;
         let xData = this.schoolAverages.map(schoolAverage => schoolAverage.averageSecondaryPoints);
         let yData = this.schoolAverages.map(schoolAverage => schoolAverage.shortName);
@@ -94,11 +98,7 @@ export class ReportGeneratorComponent implements OnInit {
     const canvas = this.renderer.createElement('canvas');
     this.renderer.addClass(canvas, 'chart');   
     this.renderer.appendChild(divParent, canvas);
-
-    
-
-    
-
+       
     Chart.register(...registerables);
     const data = {
       labels: yData,
@@ -135,8 +135,6 @@ export class ReportGeneratorComponent implements OnInit {
 
     const chart = new Chart(canvas, config);
     this.charts.push({ chart, canvas });
-    // TODO add onclick deleteChart
-    //button.onclick(this.deleteChart);
     button.addEventListener('click', this.deleteChart.bind(this));
   }
 

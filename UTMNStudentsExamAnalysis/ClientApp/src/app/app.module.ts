@@ -11,6 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { TownTypeListComponent } from './town-type/town-type-list/town-type-list.component';
 import { ReportGeneratorComponent } from './report-generator/report-generator.component';
+import { LoginComponent } from './login/login/login.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ReportGeneratorComponent } from './report-generator/report-generator.co
     CounterComponent,
     FetchDataComponent,
     TownTypeListComponent,
-    ReportGeneratorComponent
+    ReportGeneratorComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
