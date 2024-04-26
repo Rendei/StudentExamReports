@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using UTMNStudentsExamAnalysis.Models;
 
-namespace UTMNStudentsExamAnalysis.Models;
+namespace UTMNStudentsExamAnalysis;
 
-public partial class StudentExamResultsContext : DbContext
+public partial class StudentExamResultsContext : IdentityDbContext<ApplicationUser>
 {
     private readonly IConfiguration _configuration;
     public StudentExamResultsContext(IConfiguration configuration)

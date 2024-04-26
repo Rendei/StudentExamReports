@@ -12,6 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { TownTypeListComponent } from './town-type/town-type-list/town-type-list.component';
 import { ReportGeneratorComponent } from './report-generator/report-generator.component';
 import { LoginComponent } from './login/login/login.component';
+import { AuthGuard } from './login/auth.guard';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { LoginComponent } from './login/login/login.component';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'town-type', component: TownTypeListComponent },
-      { path: 'report', component: ReportGeneratorComponent},
+      { path: 'report', component: ReportGeneratorComponent },
+      { path: 'login', component: LoginComponent}
     ])
   ],
   providers: [],

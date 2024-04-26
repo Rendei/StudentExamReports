@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+using UTMNStudentsExamAnalysis;
 using UTMNStudentsExamAnalysis.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<StudentExamResultsContext>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<StudentExamResultsContext>()
+    .AddDefaultTokenProviders();
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -33,6 +38,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseAuthentication();   
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
