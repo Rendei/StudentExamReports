@@ -37,6 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\register\user.ts" />
     <None Remove="ClientApp\src\app\report-generator\models\averages.ts" />
     <None Remove="ClientApp\src\app\report-generator\models\class.ts" />
     <None Remove="ClientApp\src\app\report-generator\models\school.ts" />
@@ -45,15 +46,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\register\user.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\class.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\school.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\averages.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\subject.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\report-generator\models\testType.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\src\app\login\" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -1,6 +1,6 @@
 <header>
-  <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
+  <nav *ngIf="!hideNavbar"
+       class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
   >
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']">UTMNStudentsExamAnalysis</a>
@@ -35,7 +35,7 @@
           </li>-->
 
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/town-type']">Города</a>
+            <a class="nav-link text-dark" [routerLink]="['/report']">Отчёты</a>
           </li>
         </ul>
       </div>

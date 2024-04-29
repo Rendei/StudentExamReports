@@ -8,9 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<StudentExamResultsContext>();
+builder.Services.AddDbContext<IdentityContext>();
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<StudentExamResultsContext>()
+    .AddEntityFrameworkStores<IdentityContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<UserManager<ApplicationUser>>();
+builder.Services.AddScoped<SignInManager<ApplicationUser>>();
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 

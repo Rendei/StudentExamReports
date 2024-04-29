@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using UTMNStudentsExamAnalysis.Models;
+using Task = UTMNStudentsExamAnalysis.Models.Task;
 
 namespace UTMNStudentsExamAnalysis;
 
-public partial class StudentExamResultsContext : IdentityDbContext<ApplicationUser>
+public partial class StudentExamResultsContext : DbContext
 {
     private readonly IConfiguration _configuration;
     public StudentExamResultsContext(IConfiguration configuration)
@@ -52,12 +53,13 @@ public partial class StudentExamResultsContext : IdentityDbContext<ApplicationUs
 
     public virtual DbSet<TownType> TownTypes { get; set; }
 
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseNpgsql(_configuration.GetConnectionString("ExamDatabase"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
         modelBuilder.Entity<Answer>(entity =>
         {
             entity.HasKey(e => e.AnswerId).HasName("answers_pkey");
