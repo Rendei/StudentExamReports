@@ -43,7 +43,7 @@ export class ReportsService {
     const subjectsString = selectedSubjects.join('&selectedSubjects=');
     const schoolCodesString = selectedSchoolCodes.join('&selectedSchoolCodes=');    
     const yearsString = seletectedYears.join('&selectedYears=');
-
+    console.log(`${this.apiUrl}/results/schools/average?selectedSchoolCodes=${schoolCodesString}&selectedSubjects=${subjectsString}&selectedYears=${yearsString}`);
     return this.http.get<SchoolAverage[]>(`${this.apiUrl}/results/schools/average?selectedSchoolCodes=${schoolCodesString}&selectedSubjects=${subjectsString}&selectedYears=${yearsString}`);
   }
 

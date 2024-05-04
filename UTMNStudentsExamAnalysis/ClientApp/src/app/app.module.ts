@@ -16,6 +16,7 @@ import { ReportGeneratorComponent } from './report-generator/report-generator.co
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
 import { RegisterComponent } from './register/register.component';
+import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { RegisterComponent } from './register/register.component';
     TownTypeListComponent,
     ReportGeneratorComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    UserDropdownComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

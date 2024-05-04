@@ -6,6 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
 using UTMNStudentsExamAnalysis.Models;
+using System.Configuration;
+using Task = System.Threading.Tasks.Task;
 
 namespace UTMNStudentsExamAnalysis.Controllers
 {
@@ -15,13 +17,16 @@ namespace UTMNStudentsExamAnalysis.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public AuthenticationController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
+        public AuthenticationController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _roleManager = roleManager;
         }
 
         [HttpPost("login")]
@@ -58,6 +63,7 @@ namespace UTMNStudentsExamAnalysis.Controllers
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 var token = GenerateJwtToken(user);
+                await AssignRoleToUser(user.Id, "User");
                 return Ok(new { token });
             }
 
@@ -66,6 +72,7 @@ namespace UTMNStudentsExamAnalysis.Controllers
             return BadRequest(new { Errors = errors });
         }
 
+        [NonAction]
         private string GenerateJwtToken(ApplicationUser user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -84,6 +91,25 @@ namespace UTMNStudentsExamAnalysis.Controllers
             return tokenHandler.WriteToken(token);
         }
 
+        [NonAction]
+        private async Task AssignRoleToUser(string userId, string roleName)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
 
+            // Check if the user exists
+            if (user == null)
+            {
+                throw new InvalidOperationException($"User with ID '{userId}' not found.");
+            }
+
+            // Check if the role exists
+            var roleExists = await _roleManager.RoleExistsAsync(roleName);
+            if (!roleExists)
+            {
+                throw new InvalidOperationException($"Role '{roleName}' not found.");
+            }
+
+            await _userManager.AddToRoleAsync(user, roleName);
+        }
     }
 }
