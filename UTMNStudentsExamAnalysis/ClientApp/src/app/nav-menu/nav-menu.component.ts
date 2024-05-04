@@ -13,7 +13,9 @@ export class NavMenuComponent {
   constructor(private router: Router) {
     // Check the current route to determine whether to hide the navbar
     this.router.events.subscribe(() => {
-      this.hideNavbar = this.router.url.includes('login') || this.router.url.includes('register');
+      this.hideNavbar = this.router.url.includes('login')
+        || this.router.url.includes('register')
+        || this.router.url.includes('password-restore');
     });
   }
 

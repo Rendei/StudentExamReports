@@ -64,6 +64,11 @@ export class AuthService {
     return user ? user.role : '';
   }
 
+  resetPassword(email: string): string {
+    //return this.http.get(`${this.apiUrl}/reset`, email);
+    return 'not impemented';
+  }
+
   private decodeToken(token: string): any {
     // This is a simplified decoding example, use a library for production
     const tokenParts = token.split('.');
