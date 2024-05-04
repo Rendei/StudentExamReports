@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Dropdown } from 'bootstrap';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-dropdown',
@@ -7,17 +8,24 @@ import { Dropdown } from 'bootstrap';
   styleUrls: ['./user-dropdown.component.css']
 })
 export class UserDropdownComponent implements OnInit {
-
-  constructor() { }
+  @ViewChild('dropdownToggle') dropdownToggle!: ElementRef;
+  dropdownOpen: boolean = false;
+  isAdmin: boolean = false;
+  user: any = {};
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    const dropdownMenuButton = document.getElementById('userDropdownMenuButton');
-    if (dropdownMenuButton) {
-      // Initialize dropdown only if the element exists
-      new Dropdown(dropdownMenuButton);
-    } else {
-      console.error("Dropdown menu button element not found.");
-    }
+    this.user = this.authService.getUser();
+    this.isAdmin = this.authService.getUserRole() === "Admin" ? true : false;
+    //console.log(this.user.getValue());
   }
 
+  toggleDropdown(): void {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 }

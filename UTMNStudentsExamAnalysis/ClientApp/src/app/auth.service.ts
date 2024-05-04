@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class AuthService {
   private tokenKey = 'authToken';
   private userSubject = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
     // Check if token exists in storage on service initialization
     const token = localStorage.getItem(this.tokenKey);
     if (token) {
@@ -22,7 +23,8 @@ export class AuthService {
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((response: any) => {
-        const token = response.token;
+        const token = response.token.result;
+        console.log(token);
         this.setToken(token);
         this.setUserFromToken(token);
         console.log(this.userSubject);
@@ -45,14 +47,14 @@ export class AuthService {
 
   private setUserFromToken(token: string): void {
     // Decode the token and extract user information
-    const decodedToken = this.decodeToken(token);
-    console.log(decodedToken);
+    const decodedToken = this.jwtHelper.decodeToken(token);;
+    //console.log(decodedToken);
     this.userSubject.next(decodedToken);
   }
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem(this.tokenKey);
-    return !!token;
+    return !this.jwtHelper.isTokenExpired(token);
   }
 
   getUser(): Observable<any> {
@@ -61,17 +63,9 @@ export class AuthService {
 
   getUserRole(): string {
     const user = this.userSubject.getValue();
+    console.log(user);
     return user ? user.role : '';
   }
 
-  private decodeToken(token: string): any {
-    // This is a simplified decoding example, use a library for production
-    const tokenParts = token.split('.');
-    if (tokenParts.length !== 3) {
-      throw new Error('Invalid token format');
-    }
-    const payload = JSON.parse(atob(tokenParts[1]));
-    return payload;
-  }
 }
 

@@ -17,6 +17,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
 import { RegisterComponent } from './register/register.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -37,11 +38,20 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     FormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('access_token');
+        },
+        allowedDomains: ['example.com'],
+        disallowedRoutes: ['http://example.com/examplebadroute/'],
+      }
+    }),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] },      
       { path: 'report', component: ReportGeneratorComponent, canActivate: [AuthGuard] },
       { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent}
+      { path: 'register', component: RegisterComponent }
     ])
   ],
   providers: [],
