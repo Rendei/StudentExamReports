@@ -17,6 +17,8 @@ import { ReportGeneratorComponent } from './report-generator/report-generator.co
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
 import { RegisterComponent } from './register/register.component';
+import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
+import { JwtModule } from '@auth0/angular-jwt';
 import { PasswordRestoreComponent } from './password-restore/password-restore.component';
 import { AdminComponent } from './admin/admin.component';
 
@@ -33,6 +35,8 @@ import { AdminComponent } from './admin/admin.component';
     RegisterComponent,
     PasswordRestoreComponent,
     AdminComponent
+    RegisterComponent,
+    UserDropdownComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -41,6 +45,15 @@ import { AdminComponent } from './admin/admin.component';
     BrowserAnimationsModule,
     MatTabsModule,
     ToastrModule.forRoot(),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('access_token');
+        },
+        allowedDomains: ['example.com'],
+        disallowedRoutes: ['http://example.com/examplebadroute/'],
+      }
+    }),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] },
       { path: 'report', component: ReportGeneratorComponent, canActivate: [AuthGuard] },

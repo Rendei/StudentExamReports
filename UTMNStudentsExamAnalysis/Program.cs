@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using UTMNStudentsExamAnalysis;
 using UTMNStudentsExamAnalysis.Models;
 
@@ -16,8 +17,11 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 builder.Services.AddScoped<UserManager<ApplicationUser>>();
 builder.Services.AddScoped<SignInManager<ApplicationUser>>();
+builder.Services.AddScoped<RoleManager<IdentityRole>>();
+
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 
 builder.Services.AddCors(options =>
 {
@@ -38,6 +42,13 @@ if (!app.Environment.IsDevelopment())
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    await RoleSeeder.SeedRolesAsync(roleManager);
 }
 
 app.UseHttpsRedirection();

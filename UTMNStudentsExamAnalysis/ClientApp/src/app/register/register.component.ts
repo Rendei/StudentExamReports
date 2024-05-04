@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +13,7 @@ export class RegisterComponent implements OnInit {
   @ViewChild('registerButton')
     registerButton!: HTMLButtonElement;
 
-  constructor(private authService: AuthService, private toastr: ToastrService) { }
+  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -21,8 +22,7 @@ export class RegisterComponent implements OnInit {
     let user = { email, password };
     this.authService.register(user)
       .subscribe(response => {
-        // TODO Handle successful registration (e.g., store JWT token)
-        console.log('Registration successful:', response.token);
+        this.router.navigate(['/login']);
       },
         error => {
           // TODO Handle registration error (display error message)

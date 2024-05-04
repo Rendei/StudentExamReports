@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/']);
       },
         error => {
-          console.error('Login failed:', error.error);
+          console.error('Login failed:', error);
         });
   }
 }
