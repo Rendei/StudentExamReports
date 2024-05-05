@@ -1,25 +1,57 @@
 <h1> Панель администратора</h1>
-<main class="d-flex justify-content-between">
-  <!--<div class="d-flex flex-column justify-content-between">
-    <h1> Пользователи </h1>
-    <button class="btn-primary btn"> Добавить нового пользователя</button>
-    <button class="btn-primary btn"> Изменить пароль пользователя</button>
-    <button class="btn-primary btn"> Удалить пользователя</button>
-    <button class="btn-primary btn"> Изменить роли пользователя</button>
-  </div>
+<main class="d-flex justify-content-center">
+  <mat-tab-group>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        Пользователи
+      </ng-template>
+      <div class="d-flex flex-column justify-content-between">
+        <button class="btn-primary btn mt-4"> Добавить нового пользователя</button>
+        <button class="btn-primary btn mt-4"> Изменить пароль пользователя</button>
+        <button class="btn-primary btn mt-4"> Удалить пользователя</button>
+        <button class="btn-primary btn mt-4"> Изменить роли пользователя</button>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        Данные
+      </ng-template>
+      <div class="d-flex flex-column justify-content-between mt-3">
+        <mat-form-field>
+          <ngx-mat-file-input 
+                              [formControl]="fileControl" [accept]="accept"
+                              placeholder="Выберите файл">
+            <!--<mat-icon ngxMatFileInputIcon>folder</mat-icon>-->
+          </ngx-mat-file-input>
+          <mat-hint>Формат: 2018_ЕГЭ_база.xlsx</mat-hint>
+        </mat-form-field>
 
-  <div class="d-flex flex-column justify-content-between">
-    <h1> кайф </h1>
-    <button class="btn-primary btn"> Добавить нового пользователя</button>
-    <button class="btn-primary btn"> Изменить пароль пользователя</button>
-    <button class="btn-primary btn"> Удалить пользователя</button>
-    <button class="btn-primary btn"> Изменить роли пользователя</button>
-  </div>-->
+        <button class="btn-primary btn mt-4"> Загрузить новую excel таблицу</button>
 
-  <h3>Very slow animation</h3>
-  <mat-tab-group animationDuration="500ms">
-    <mat-tab label="First">Content 1</mat-tab>
-    <mat-tab label="Second">Content 2</mat-tab>
-    <mat-tab label="Third">Content 3</mat-tab>
+        <div class="center">
+          <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
+                         (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+            <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+              Optional custom content that replaces the the entire default content.
+              <button type="button" (click)="openFileSelector()">Browse Files</button>
+            </ng-template>
+          </ngx-file-drop>
+          <div class="upload-table">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Name</th>
+              </tr>
+              </thead>
+              <tbody class="upload-name-style">
+              <tr *ngFor="let item of files; let i=index">
+                <td><strong>{{ item.relativePath }}</strong></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
   </mat-tab-group>
 </main>
