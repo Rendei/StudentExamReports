@@ -30,6 +30,7 @@ import { PasswordRestoreComponent } from './password-restore/password-restore.co
 import { AdminComponent } from './admin/admin.component';
 import { MatButtonModule } from '@angular/material/button';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { RoleGuard } from './role.guard';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,7 @@ import { NgxFileDropModule } from 'ngx-file-drop';
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'password-restore', component: PasswordRestoreComponent },
-      { path: 'admin', component: AdminComponent },
+      { path: 'admin', component: AdminComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['Admin'] } },
     ])
   ],
   providers: [],

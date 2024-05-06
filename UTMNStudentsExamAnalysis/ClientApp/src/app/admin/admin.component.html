@@ -1,12 +1,12 @@
 <h1> Панель администратора</h1>
 <main class="d-flex justify-content-center">
-  <mat-tab-group>
+  <mat-tab-group class="d-flex" style="min-width: 500px">
     <mat-tab>
       <ng-template mat-tab-label>
         Пользователи
       </ng-template>
       <div class="d-flex flex-column justify-content-between">
-        <button class="btn-primary btn mt-4"> Добавить нового пользователя</button>
+        <a class="btn-primary btn mt-4" href="/register"> Добавить нового пользователя</a>
         <button class="btn-primary btn mt-4"> Изменить пароль пользователя</button>
         <button class="btn-primary btn mt-4"> Удалить пользователя</button>
         <button class="btn-primary btn mt-4"> Изменить роли пользователя</button>
@@ -18,39 +18,36 @@
       </ng-template>
       <div class="d-flex flex-column justify-content-between mt-3">
         <mat-form-field>
-          <ngx-mat-file-input 
-                              [formControl]="fileControl" [accept]="accept"
+          <ngx-mat-file-input [formControl]="fileControl" [accept]="accept"
                               placeholder="Выберите файл">
             <!--<mat-icon ngxMatFileInputIcon>folder</mat-icon>-->
           </ngx-mat-file-input>
           <mat-hint>Формат: 2018_ЕГЭ_база.xlsx</mat-hint>
         </mat-form-field>
 
-        <button class="btn-primary btn mt-4"> Загрузить новую excel таблицу</button>
-
-        <div class="center">
+        <div class="center mt-4">
           <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
                          (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
             <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-              Optional custom content that replaces the the entire default content.
-              <button type="button" (click)="openFileSelector()">Browse Files</button>
+              Или перенесите его сюда...
             </ng-template>
           </ngx-file-drop>
           <div class="upload-table">
             <table class="table">
               <thead>
-              <tr>
-                <th>Name</th>
-              </tr>
+                <tr>
+                  <th>Имя</th>
+                </tr>
               </thead>
               <tbody class="upload-name-style">
-              <tr *ngFor="let item of files; let i=index">
-                <td><strong>{{ item.relativePath }}</strong></td>
-              </tr>
+                <tr *ngFor="let item of files; let i=index">
+                  <td><strong>{{ item.relativePath }}</strong></td>
+                </tr>
               </tbody>
             </table>
           </div>
         </div>
+        <button class="btn-primary btn mt-4"> Загрузить новую excel таблицу</button>
       </div>
     </mat-tab>
   </mat-tab-group>

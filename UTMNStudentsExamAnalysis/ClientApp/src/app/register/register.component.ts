@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-register',
@@ -13,16 +14,16 @@ export class RegisterComponent implements OnInit {
   @ViewChild('registerButton')
     registerButton!: HTMLButtonElement;
 
-  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) { }
+  constructor(private userService: UserService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
 
-  register(email: string, password: string): void{
+  register(email: string, password: string): void {
     let user = { email, password };
-    this.authService.register(user)
+    this.userService.addUser(user)
       .subscribe(response => {
-        this.router.navigate(['/login']);
+        console.log(`User added, ${user}`);
       },
         error => {
           // TODO Handle registration error (display error message)

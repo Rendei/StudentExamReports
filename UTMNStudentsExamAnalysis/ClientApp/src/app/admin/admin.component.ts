@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgxFileDropEntry } from 'ngx-file-drop';
+import { Observable } from 'rxjs';
+import { UserService } from '../user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin',
@@ -15,7 +18,7 @@ export class AdminComponent implements OnInit {
 
   public files: any;
 
-  constructor() {
+  constructor(private userService: UserService, private toastr: ToastrService) {
     this.fileControl = new FormControl(this.files)
   }
 
@@ -71,6 +74,15 @@ export class AdminComponent implements OnInit {
 
   public fileLeave(event: any) {
     console.log(event);
+  }
+
+  addNewUser(userData: any): void {
+    this.userService.addUser(userData).subscribe((user) => {
+      console.log(`User added, ${user}`);
+    },
+      (error) => {
+        console.error(error);
+      });
   }
 
 }
