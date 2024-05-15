@@ -80,10 +80,10 @@ import { RoleGuard } from './role.guard';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] },
       { path: 'report', component: ReportGeneratorComponent, canActivate: [AuthGuard] },
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
+      { path: 'login', component: LoginComponent },     
       { path: 'password-restore', component: PasswordRestoreComponent },
       { path: 'admin', component: AdminComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['Admin'] } },
+      { path: 'register', component: RegisterComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['Admin'] } },
     ])
   ],
   providers: [],
