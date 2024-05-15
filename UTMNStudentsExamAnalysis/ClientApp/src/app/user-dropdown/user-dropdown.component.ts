@@ -16,6 +16,7 @@ export class UserDropdownComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
+    console.log(this.user);
     this.isAdmin = this.authService.getUserRole() === "Admin" ? true : false;
     //console.log(this.user.getValue());
   }

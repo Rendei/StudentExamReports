@@ -4,6 +4,9 @@ namespace UTMNStudentsExamAnalysis.Models
 {
     public class RegisterViewModel
     {
+        [Required]       
+        public string Username { get; set; }
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Behavior } from 'popper.js';
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +24,9 @@ export class AuthService {
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((response: any) => {
-        const token = response.token.result;
-        console.log(token);
+        const token = response.token.result;        
         this.setToken(token);
-        this.setUserFromToken(token);
-        console.log(this.userSubject);
+        this.setUserFromToken(token);        
       })
     );
   }
@@ -53,13 +52,12 @@ export class AuthService {
     return !this.jwtHelper.isTokenExpired(token);
   }
 
-  getUser(): Observable<any> {
-    return this.userSubject.asObservable();
+  getUser(): BehaviorSubject<any> {
+    return this.userSubject.value;
   }
 
   getUserRole(): string {
-    const user = this.userSubject.getValue();
-    console.log(user);
+    const user = this.userSubject.getValue();    
     return user ? user.role : '';
   }
 

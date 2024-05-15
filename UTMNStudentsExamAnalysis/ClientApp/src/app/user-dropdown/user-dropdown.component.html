@@ -1,7 +1,7 @@
 <li class="nav-item dropdown" (click)="toggleDropdown()">
   <a class="nav-link" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
-    <img src="{{ user.profilePicture ? user.profilePicture : './assets/images/user.png' }}" alt="{{ user.username }}" width="30" height="30" class="rounded-circle mr-2">
-    {{ user.username }}
+    <img src="{{ user.profilePicture ? user.profilePicture : './assets/images/user.png' }}" alt="{{ user.nameid }}" width="30" height="30" class="rounded-circle mr-2">
+    <b class="ms-3">{{ user.nameid }}</b>
   </a>
   <div class="dropdown-menu" [ngClass]="{ 'show': dropdownOpen }" aria-labelledby="navbarDropdown">
     <a class="dropdown-item" routerLink="/profile">Мой профиль</a>

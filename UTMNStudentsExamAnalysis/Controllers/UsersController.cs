@@ -45,7 +45,7 @@ namespace UTMNStudentsExamAnalysis.Controllers
         {
             var user = new ApplicationUser
             {
-                UserName = model.Email,
+                UserName = model.Username,
                 Email = model.Email
                 // You can add other properties to your ApplicationUser if needed
             };

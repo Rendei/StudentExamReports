@@ -12,7 +12,7 @@
       <div class="container card">
         <b class="mx-auto">Тип диаграммы:</b>
         <select #filterSelect id="filterSelect" [(ngModel)]="selectedReport">
-          <option class="filter-option" *ngFor="let filterOption of filterOptions" [value]="filterOption"> {{ filterOption }}</option>
+          <option class="filter-option" *ngFor="let filterOption of filterOptions" [value]="filterOption" > {{ filterOption }}</option>
         </select>
 
         <div class="row">
@@ -24,7 +24,7 @@
 
             <div class="options">
               <select multiple [(ngModel)]="selectedSchoolCodes" (change)="onSelectionChange()">
-                <option class="filter-option" *ngFor="let schoolOption of schoolOptions" [value]="schoolOption.schoolCode" [title]="schoolOption.shortName"> {{ schoolOption.shortName }}</option>
+                <option class="filter-option" *ngFor="let schoolOption of schoolOptions" [value]="schoolOption.schoolCode" [title]="schoolOption.shortName"> {{ schoolOption.shortName }}</option>                
               </select>
             </div>
           </div>

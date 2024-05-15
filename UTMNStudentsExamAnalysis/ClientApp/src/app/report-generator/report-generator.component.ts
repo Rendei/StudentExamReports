@@ -17,7 +17,7 @@ export class ReportGeneratorComponent implements OnInit {
   public charts: ChartWithCanvas[] = [];
   public filterOptions = ["Линейная", "Гистограмма",
     "Круговая", "Диаграмма рассеяния"];
-  public selectedReport: any = null;
+  public selectedReport: string = "Гистограмма";
 
   public schoolOptions: School[] = [];
   public selectedSchoolCodes: number[] = [];

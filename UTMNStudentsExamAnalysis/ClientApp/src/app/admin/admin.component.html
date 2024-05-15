@@ -23,7 +23,7 @@
             <!--<mat-icon ngxMatFileInputIcon>folder</mat-icon>-->
           </ngx-mat-file-input>
           <mat-hint>Формат: 2018_ЕГЭ_база.xlsx</mat-hint>
-        </mat-form-field>
+        </mat-form-field> 
 
         <div class="center mt-4">
           <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
@@ -47,7 +47,7 @@
             </table>
           </div>
         </div>
-        <button class="btn-primary btn mt-4"> Загрузить новую excel таблицу</button>
+        <button class="btn-primary btn mt-4" (click)="uploadFiles()"> Загрузить новую excel таблицу</button>
       </div>
     </mat-tab>
   </mat-tab-group>

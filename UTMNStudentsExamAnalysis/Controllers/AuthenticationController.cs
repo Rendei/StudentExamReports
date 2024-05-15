@@ -56,7 +56,7 @@ namespace UTMNStudentsExamAnalysis.Controllers
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.NameIdentifier, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email)
             };
             claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));

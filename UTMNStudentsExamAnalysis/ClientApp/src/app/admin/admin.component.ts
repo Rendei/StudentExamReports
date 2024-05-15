@@ -4,6 +4,7 @@ import { NgxFileDropEntry } from 'ngx-file-drop';
 import { Observable } from 'rxjs';
 import { UserService } from '../user.service';
 import { ToastrService } from 'ngx-toastr';
+import { FileUploadService } from '../file-upload.service';
 
 @Component({
   selector: 'app-admin',
@@ -18,8 +19,8 @@ export class AdminComponent implements OnInit {
 
   public files: any;
 
-  constructor(private userService: UserService, private toastr: ToastrService) {
-    this.fileControl = new FormControl(this.files)
+  constructor(private userService: UserService, private fileUploadService: FileUploadService, private toastr: ToastrService) {
+    this.fileControl = new FormControl(this.files);
   }
 
   ngOnInit(): void {
@@ -31,49 +32,17 @@ export class AdminComponent implements OnInit {
       }
     })
   }
+
   public dropped(files: NgxFileDropEntry[]) {
     this.files = files;
-    for (const droppedFile of files) {
-
-      // Is it a file?
-      if (droppedFile.fileEntry.isFile) {
-        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
-        fileEntry.file((file: File) => {
-
-          // Here you can access the real file
-          console.log(droppedFile.relativePath, file);
-
-          /**
-          // You could upload it like this:
-          const formData = new FormData()
-          formData.append('logo', file, relativePath)
-
-          // Headers
-          const headers = new HttpHeaders({
-            'security-token': 'mytoken'
-          })
-
-          this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
-          .subscribe(data => {
-            // Sanitized logo returned from backend
-          })
-          **/
-
-        });
-      } else {
-        // It was a directory (empty directories are added, otherwise only files)
-        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-        console.log(droppedFile.relativePath, fileEntry);
-      }
-    }
   }
 
   public fileOver(event: any) {
-    console.log(event);
+    //console.log(event);
   }
 
   public fileLeave(event: any) {
-    console.log(event);
+    //console.log(event);
   }
 
   addNewUser(userData: any): void {
@@ -85,4 +54,51 @@ export class AdminComponent implements OnInit {
       });
   }
 
+  uploadFiles(): void {
+    this.toastr.info("Загрузка успешно начата, примерное время ожидания 15-20 секунд");
+    for (const file of this.files) {
+
+      // Is it a file?
+      if (file.fileEntry.isFile) {
+        const fileEntry = file.fileEntry as FileSystemFileEntry;
+
+        fileEntry.file((fileToUpload: File) => {
+
+          // Here you can access the real file
+          console.log(file.relativePath, fileToUpload);
+
+
+          // You could upload it like this:
+          const formData = new FormData()
+          formData.append('excelData', fileToUpload, fileToUpload.name)
+
+          //// Headers
+          //const headers = new HttpHeaders({
+          //  'security-token': 'mytoken'
+          //})
+
+          //this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
+          //.subscribe(data => {
+          //  // Sanitized logo returned from backend
+          //})
+
+          this.fileUploadService.uploadFile(formData).subscribe(
+            (response) => {
+              console.log(response);
+              this.toastr.success(`Файл успешно загружен ${response}`)              
+            },
+            (error) => {
+              console.log(error);
+              this.toastr.error(`Ошибка загрузки файла ${error}`)
+            }
+          );
+
+        });
+      } else {
+        // It was a directory (empty directories are added, otherwise only files)
+        const fileEntry = file.fileEntry as FileSystemDirectoryEntry;
+        console.log(file.relativePath, fileEntry);
+      }
+    }
+  }
 }

@@ -13,6 +13,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDividerModule } from '@angular/material/divider'
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -53,6 +54,7 @@ import { RoleGuard } from './role.guard';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    MatDividerModule,
     MatTabsModule,
     MatInputModule,
     NgxMatFileInputModule,
