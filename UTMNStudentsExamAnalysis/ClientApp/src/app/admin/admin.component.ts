@@ -56,6 +56,7 @@ export class AdminComponent implements OnInit {
 
   uploadFiles(): void {
     this.toastr.info("Загрузка успешно начата, примерное время ожидания 15-20 секунд");
+
     for (const file of this.files) {
 
       // Is it a file?

@@ -6,6 +6,7 @@ import { ReportsService } from '../reports.service'
 import { ClassAverage, SchoolAverage } from './models/averages';
 import { Class } from './models/class';
 import { Subject } from './models/subject';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-report-generator',
@@ -22,20 +23,25 @@ export class ReportGeneratorComponent implements OnInit {
   public schoolOptions: School[] = [];
   public selectedSchoolCodes: number[] = [];
   public schoolAverages: SchoolAverage[] = [];
+  schoolChecked = false;
 
-  public classOptions: Class[] = [];
+  public classOptions: string[] = [];
   public selectedSchoolClasses: string[] = [];
   public classAverages: ClassAverage[] = [];
+  classChecked = false;
 
   public typeOptions = ["ЕГЭ", "ОГЭ"];
+  typeChecked = false;
 
   public subjectOptions: Subject[] = [];
   public selectedSubjects: number[] = [];
+  subjectChecked = false;
 
   public yearOptions: number[] = [];
   public selectedYears: number[] = [];
+  yearChecked = false;
 
-  constructor(private reportService: ReportsService, private renderer: Renderer2) { }
+  constructor(private reportService: ReportsService, private renderer: Renderer2, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.reportService.getSchools().subscribe(
@@ -56,9 +62,6 @@ export class ReportGeneratorComponent implements OnInit {
   }
 
 
-  ngAfterViewInit(): void {
-    //this.getDataAndCreateChart();
-  }
 
   generateReport(): void {    
     if (this.selectedSchoolClasses.length > 0) {
@@ -153,6 +156,56 @@ export class ReportGeneratorComponent implements OnInit {
     }
   }
 
+
+  setAllSchools(checked: boolean): void {
+    if (checked) {
+      this.selectedSchoolCodes = this.schoolOptions.map(school => school.schoolCode);
+      this.classOptions = [];
+    }
+    else {
+      this.selectedSchoolCodes = [];
+    }  
+  }
+
+  setAllClasses(checked: boolean): void {
+    if (checked) {
+      this.selectedSchoolClasses = this.classOptions;
+    }
+    else {
+      this.selectedSchoolClasses = [];
+    }
+  }
+
+  setAllTypes(checked: boolean): void {
+    //if (checked) {
+    //  this.se = this.classOptions;
+    //}
+    //else {
+    //  this.selectedSchoolClasses = [];
+    //}
+  }
+
+  setAllSubjects(checked: boolean): void {
+    if (checked) {
+      this.selectedSubjects = this.subjectOptions
+        .filter(subject => subject.subjectId !== 22)
+        .map(subject => subject.subjectId);
+
+      this.toastr.info("При выборе всех не учитывается базовая математика!");
+    }
+    else {
+      this.selectedSubjects = [];
+    }
+  }
+
+  setAllYears(checked: boolean): void {
+    if (checked) {
+      this.selectedYears = this.yearOptions;
+    }
+    else {
+      this.selectedYears = [];
+    }
+  }
 }
 
 
