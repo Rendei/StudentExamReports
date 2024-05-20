@@ -20,6 +20,7 @@
             <b>Школа</b>
             <div class="filter-div">
               <mat-checkbox class="example-margin"
+                            [checked]="schoolChecked"
                             [(ngModel)]="schoolChecked"
                             (change)="setAllSchools($event.checked)"
                             labelPosition="before">
@@ -29,7 +30,7 @@
           
 
             <div class="options">
-              <select multiple [(ngModel)]="selectedSchoolCodes" (change)="onSelectionChange()">
+              <select multiple [(ngModel)]="selectedSchoolCodes" (change)="onSchoolSelectionChange()">
                 <option class="filter-option" *ngFor="let schoolOption of schoolOptions" [value]="schoolOption.schoolCode" [title]="schoolOption.shortName"> {{ schoolOption.shortName }}</option>                
               </select>
             </div>
@@ -47,7 +48,7 @@
             </div>
 
             <div class="options">
-              <select multiple [(ngModel)]="selectedSchoolClasses">
+              <select multiple [(ngModel)]="selectedSchoolClasses" (change)="onClassSelectionChange()">
                 <option class="filter-option" *ngFor="let classOption of classOptions" [value]="classOption"> {{ classOption }}</option>
               </select>
             </div>
@@ -67,7 +68,7 @@
             </div>
 
             <div class="options">
-              <select multiple>
+              <select multiple [(ngModel)]="selectedTypes" (change)="onTypeSelectionChange()">
                 <option class="filter-option" *ngFor="let typeOption of typeOptions" [value]="typeOption"> {{ typeOption }}</option>
               </select>
             </div>
@@ -86,7 +87,7 @@
             
 
             <div class="options">
-              <select multiple [(ngModel)]="selectedSubjects">
+              <select multiple [(ngModel)]="selectedSubjects" (change)="onSubjectSelectionChange()">
                 <option class="filter-option" *ngFor="let subjectOption of subjectOptions" [value]="subjectOption.subjectId"> {{ subjectOption.subjectName }}</option>
               </select>
             </div>
@@ -106,7 +107,7 @@
          
 
           <div class="options">
-            <select multiple [(ngModel)]="selectedYears">
+            <select multiple [(ngModel)]="selectedYears" (change)="onYearSelectionChange()">
               <option class="filter-option" *ngFor="let yearOption of yearOptions" [value]="yearOption"> {{ yearOption }}</option>
             </select>
           </div>

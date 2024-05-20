@@ -32,7 +32,7 @@ namespace UTMNStudentsExamAnalysis.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                return Unauthorized();
+                return Unauthorized("Данная почта не найдена");
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, lockoutOnFailure: false);
@@ -42,7 +42,7 @@ namespace UTMNStudentsExamAnalysis.Controllers
                 return Ok(new { token });
             }
 
-            return Unauthorized();
+            return Unauthorized("Неверный пароль");
         }
 
         [NonAction]

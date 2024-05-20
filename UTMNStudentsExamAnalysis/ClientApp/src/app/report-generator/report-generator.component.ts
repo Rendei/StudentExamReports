@@ -17,7 +17,7 @@ export class ReportGeneratorComponent implements OnInit {
 
   public charts: ChartWithCanvas[] = [];
   public filterOptions = ["Линейная", "Гистограмма",
-    "Круговая", "Диаграмма рассеяния"];
+    "Круговая", "Диаграмма рассеяния"]; 
   public selectedReport: string = "Гистограмма";
 
   public schoolOptions: School[] = [];
@@ -31,6 +31,7 @@ export class ReportGeneratorComponent implements OnInit {
   classChecked = false;
 
   public typeOptions = ["ЕГЭ", "ОГЭ"];
+  public selectedTypes: string[] = [];
   typeChecked = false;
 
   public subjectOptions: Subject[] = [];
@@ -146,15 +147,64 @@ export class ReportGeneratorComponent implements OnInit {
     button.parentElement?.remove();
   }
 
-  onSelectionChange(): void {
+  onSchoolSelectionChange(): void {
     this.selectedSchoolClasses = [];
+    // проверка на выбор одной школы, если да, то выводим её классы    
     if (this.selectedSchoolCodes.length === 1) {
       this.reportService.getSchoolClasses(this.selectedSchoolCodes[0]).subscribe(classes => this.classOptions = classes);
     }
     else {
       this.classOptions = [];      
     }
+
+    // проверка на выбор всех элементов
+    if (this.selectedSchoolCodes.length == this.schoolOptions.length) {
+      this.schoolChecked = true;
+    }      
+    else {
+      this.schoolChecked = false;
+    }
   }
+
+  onClassSelectionChange(): void {
+    // проверка на выбор всех элементов
+    if (this.selectedSchoolClasses.length == this.classOptions.length) {
+      this.classChecked = true;
+    }
+    else {
+      this.classChecked = false;
+    }
+  }
+
+  onTypeSelectionChange(): void {
+    // проверка на выбор всех элементов
+    if (this.selectedTypes.length == this.typeOptions.length) {
+      this.typeChecked = true;
+    }
+    else {
+      this.typeChecked = false;
+    }
+  }
+
+  onSubjectSelectionChange(): void {
+    // проверка на выбор всех элементов
+    if (this.selectedSubjects.length == this.subjectOptions.length) {
+      this.subjectChecked = true;
+    }
+    else {
+      this.subjectChecked = false;
+    }
+  }
+
+  onYearSelectionChange(): void {
+    // проверка на выбор всех элементов
+    if (this.selectedYears.length == this.yearOptions.length) {
+      this.yearChecked = true;
+    }
+    else {
+      this.yearChecked = false;
+    }
+  } 
 
 
   setAllSchools(checked: boolean): void {
